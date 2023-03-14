@@ -3,11 +3,18 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var dotenv = require('dotenv');
+
+dotenv.config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+<<<<<<< HEAD
 var createDbRouter = require('./routes/create-db');
 var transactionsRouter = require('./routes/transactions');
+=======
+var testDbRouter = require('./routes/testdb');
+>>>>>>> e78263568f29b78399bf33055383c0ef61bbf102
 
 var app = express();
 
@@ -23,16 +30,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+<<<<<<< HEAD
 app.use('/create-db', createDbRouter);
 app.use('/transactions', transactionsRouter);
+=======
+app.use('/testdb', testDbRouter);
+>>>>>>> e78263568f29b78399bf33055383c0ef61bbf102
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
