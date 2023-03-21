@@ -18,18 +18,7 @@ const Transactions = mongoose.model('transactions', TransactionsSchema);
 
 /* GET transaction listing. */
 router.get('/', async function(req, res, next) {
-  /*const TransactionsSchema = new mongoose.Schema(
-    {
-      id: String,
-      type: String,
-      categorie: String,
-      montant: Number,
-      date: Date
-    },
-    { strict: false }
-  );
-  const Transactions = mongoose.model('transactions', TransactionsSchema);
-*/
+
   const transactions = await Transactions.find({});
 
   res.send(transactions);
