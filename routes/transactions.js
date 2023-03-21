@@ -18,52 +18,40 @@ const Transactions = mongoose.model('transactions', TransactionsSchema);
 
 /* GET transaction listing. */
 router.get('/', async function(req, res, next) {
-  /*const TransactionsSchema = new mongoose.Schema(
-    {
-      id: String,
-      type: String,
-      categorie: String,
-      montant: Number,
-      date: Date
-    },
-    { strict: false }
-  );
-  const Transactions = mongoose.model('transactions', TransactionsSchema);
-*/
+
   const transactions = await Transactions.find({});
 
   res.send(transactions);
 });
 
-router.get('/:id', (req, res) => {
-  const transaction = transactions.find(u => u.id === parseInt(req.params.id));
+router.get('/:id', async(req, res) => {
+  const transaction = await Transactions.findById(req.params.id);
   if (!transactions) {
     return res.status(404).send('User not found');
   }
-  res.json(transaction);
+  res.send(transaction);
 });
 
-router.post('/', (req, res) => {
-  /*const transactions = {
-    type: req.body.type,
-    categorie: req.body.categorie,
-    montant: req.body.montant,
-    date: req.body.date
-  };
-  transactions.push(transactions);
-  res.json(transactions);*/
+router.post('/', async(req, res) => {
 
   const newTransaction = new Transactions(req.body);
-  newTransaction.save((err, transaction) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(201).send(transaction);
-    }
-  });
+  await newTransaction.save();
+  return res.send(user);
 
 }); 
 
+router.put('/:id', async(req, res) => {
+  const transaction = await Transactions.findById(req.params.id);
+  if (!transaction) {
+    return res.status(404).send('User not found');
+  }
+  transaction.type = req.body.type;
+  transaction.categorie = req.body.categorie;
+  transaction.montant = req.body.montant;
+  transaction.date = req.body.date;
+  await transaction.save();
+  res.send(transaction);
+});
 
 
 module.exports = router;
